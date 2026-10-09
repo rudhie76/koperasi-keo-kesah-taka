@@ -162,9 +162,18 @@ function closeMobileSidebar() {
 // ==========================================
 // AUTHENTICATION & LOGIN MANAGEMENT
 // ==========================================
-function quickFillLogin(username, password) {
-  document.getElementById('loginUsername').value = username;
-  document.getElementById('loginPassword').value = password;
+function togglePasswordVisibility() {
+  const passInp = document.getElementById('loginPassword');
+  const icon = document.getElementById('togglePasswordIcon');
+  if (!passInp || !icon) return;
+
+  if (passInp.type === 'password') {
+    passInp.type = 'text';
+    icon.className = 'fa-solid fa-eye-slash';
+  } else {
+    passInp.type = 'password';
+    icon.className = 'fa-solid fa-eye';
+  }
 }
 
 function handleLoginSubmit(e) {

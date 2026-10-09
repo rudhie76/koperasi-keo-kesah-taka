@@ -58,7 +58,10 @@
             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
               <i class="fa-solid fa-lock"></i>
             </span>
-            <input type="password" id="loginPassword" placeholder="••••••••" class="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+            <input type="password" id="loginPassword" placeholder="••••••••" class="w-full pl-10 pr-10 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+            <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-emerald-600 transition cursor-pointer" title="Tampilkan / Sembunyikan Password">
+              <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
+            </button>
           </div>
         </div>
 
@@ -66,25 +69,6 @@
           <i class="fa-solid fa-right-to-bracket"></i> Masuk Ke Aplikasi
         </button>
       </form>
-
-      <!-- Demo Accounts Info Box -->
-      <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-[11px] space-y-2">
-        <p class="font-bold text-slate-800 flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
-          <i class="fa-solid fa-key text-amber-500"></i> Akun Pengujian Demo (Pilih Salah Satu):
-        </p>
-        <div class="grid grid-cols-2 gap-2 text-[11px]">
-          <div onclick="quickFillLogin('admin', 'admin123')" class="p-2 bg-white rounded-xl border border-slate-200 hover:border-emerald-500 cursor-pointer transition">
-            <p class="font-bold text-emerald-800">👑 Role: Pengurus</p>
-            <p class="text-slate-600 font-mono">User: admin</p>
-            <p class="text-slate-500 font-mono">Pass: admin123</p>
-          </div>
-          <div onclick="quickFillLogin('KKT-001', 'user123')" class="p-2 bg-white rounded-xl border border-slate-200 hover:border-teal-500 cursor-pointer transition">
-            <p class="font-bold text-teal-800">👤 Role: Anggota</p>
-            <p class="text-slate-600 font-mono">User: KKT-001</p>
-            <p class="text-slate-500 font-mono">Pass: user123</p>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>
