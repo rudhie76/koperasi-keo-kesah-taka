@@ -95,30 +95,22 @@
   <header class="bg-emerald-800 text-white sticky top-0 z-40 shadow-lg border-b border-emerald-700">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
       
-      <!-- Left: Toggle Sidebar Button & Title -->
+      <!-- Left: Title Only (Clean without hamburger button) -->
       <div class="flex items-center space-x-3">
-        <!-- Sidebar Toggle Button (Hide / Unhide Menu) -->
-        <button onclick="toggleSidebarNav()" id="btnToggleSidebar" class="w-10 h-10 bg-emerald-700 hover:bg-emerald-600 rounded-xl flex items-center justify-center text-white transition shadow border border-emerald-500/40" title="Hide/Unhide Menu Disamping">
-          <i class="fa-solid fa-bars text-lg"></i>
-        </button>
-
-        <div class="flex items-center space-x-2.5">
-          <div class="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center shadow-inner border border-emerald-400/30">
-            <i class="fa-solid fa-hand-holding-dollar text-lg text-emerald-200"></i>
-          </div>
-          <div>
-            <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2 leading-none">
-              KSP "KEO KESAH TAKA"
-              <span class="text-[10px] bg-emerald-700 text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-600 font-medium">Kec. Waru</span>
-            </h1>
-            <p class="text-[11px] text-emerald-200/90 font-light mt-0.5">Sistem Terpadu Simpan Pinjam & PPOB Mandiri</p>
-          </div>
+        <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-inner border border-emerald-400/30">
+          <i class="fa-solid fa-hand-holding-dollar text-xl text-emerald-200"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2 leading-none">
+            KSP "KEO KESAH TAKA"
+            <span class="text-[10px] bg-emerald-700 text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-600 font-medium">Kec. Waru</span>
+          </h1>
+          <p class="text-[11px] text-emerald-200/90 font-light mt-0.5">Sistem Terpadu Simpan Pinjam & PPOB Mandiri</p>
         </div>
       </div>
 
       <!-- Right: Status Badge & User Profile -->
       <div class="flex items-center space-x-2 text-xs">
-        <!-- Professional Clean Status Badge -->
         <div id="syncBadge" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 font-semibold text-[11px]">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           <span id="syncText">Sistem Online</span>
@@ -144,22 +136,17 @@
   </header>
 
   <!-- ================================================= -->
-  <!-- MAIN WRAPPER WITH COLLAPSIBLE SIDEBAR & CONTENT -->
+  <!-- MAIN WRAPPER WITH SIDEBAR & CONTENT -->
   <!-- ================================================= -->
   <div class="flex flex-grow w-full max-w-7xl mx-auto min-h-[calc(100vh-65px)]">
     
-    <!-- COLLAPSIBLE SIDEBAR NAV MENU -->
-    <aside id="appSidebar" class="bg-emerald-900 text-emerald-100 w-64 flex-shrink-0 transition-all duration-300 ease-in-out border-r border-emerald-800 flex flex-col z-30">
+    <!-- SIDEBAR NAV MENU -->
+    <aside id="appSidebar" class="bg-emerald-900 text-emerald-100 w-64 flex-shrink-0 border-r border-emerald-800 flex flex-col z-30">
       
       <!-- Sidebar Header / Title -->
-      <div class="p-4 border-b border-emerald-800/80 flex justify-between items-center">
-        <div class="sidebar-header-title">
-          <p class="text-[10px] uppercase font-extrabold tracking-wider text-emerald-300">Navigasi Utama</p>
-          <p class="text-xs font-bold text-white">Menu Aplikasi</p>
-        </div>
-        <button onclick="toggleSidebarNav()" class="text-emerald-300 hover:text-white text-sm" title="Sembunyikan / Tampilkan Menu">
-          <i class="fa-solid fa-angles-left" id="iconSidebarChevron"></i>
-        </button>
+      <div class="p-4 border-b border-emerald-800/80">
+        <p class="text-[10px] uppercase font-extrabold tracking-wider text-emerald-300">Navigasi Utama</p>
+        <p class="text-xs font-bold text-white">Menu Aplikasi</p>
       </div>
 
       <!-- Navigation Links -->
