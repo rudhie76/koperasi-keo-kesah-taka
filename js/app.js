@@ -1,11 +1,11 @@
 /**
  * MAIN JAVASCRIPT APPLICATION FOR KOPERASI KEO KESAH TAKA (KECAMATAN WARU)
- * Standalone Engine + Google Sheets API Integration + Multi-Role Auth System
+ * Standalone Engine + API Integration + Multi-Role Auth System + Collapsible Sidebar Nav
  */
 
 // =========================================================================
-// DEFAULT GOOGLE APPS SCRIPT WEB APP URL (DATABASE PIPELINE)
-// Auto-connected to Google Sheets DB
+// DEFAULT API ENDPOINT (DATABASE PIPELINE)
+// Auto-connected Pipeline
 // =========================================================================
 const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKPlwaCC3Yu0HcXQnSmNkIMnQxrvpuO7Cw_lHqT5jg98mdNwVgBAWwUer4g7e4pXagiQ/exec';
 
@@ -127,6 +127,22 @@ function saveLocalDatabase() {
 }
 
 // ==========================================
+// COLLAPSIBLE SIDEBAR NAV TOGGLE
+// ==========================================
+function toggleSidebarNav() {
+  const sidebar = document.getElementById('appSidebar');
+  const iconChevron = document.getElementById('iconSidebarChevron');
+  
+  sidebar.classList.toggle('sidebar-collapsed');
+
+  if (sidebar.classList.contains('sidebar-collapsed')) {
+    if (iconChevron) iconChevron.className = 'fa-solid fa-angles-right';
+  } else {
+    if (iconChevron) iconChevron.className = 'fa-solid fa-angles-left';
+  }
+}
+
+// ==========================================
 // AUTHENTICATION & LOGIN MANAGEMENT
 // ==========================================
 function quickFillLogin(username, password) {
@@ -139,7 +155,6 @@ function handleLoginSubmit(e) {
   const userInp = document.getElementById('loginUsername').value.trim();
   const passInp = document.getElementById('loginPassword').value.trim();
 
-  // Find user locally first
   const user = db.pengguna.find(u => 
     (u.Username.toLowerCase() === userInp.toLowerCase() || u.ID_Anggota === userInp || u.Username === userInp) && 
     u.Password === passInp
@@ -189,7 +204,6 @@ function logout() {
 function applyRolePermissions() {
   const isPengurus = currentUser.Role === 'Pengurus';
 
-  // Toggle elements by class role-pengurus
   document.querySelectorAll('.role-pengurus').forEach(el => {
     if (isPengurus) el.classList.remove('hidden');
     else el.classList.add('hidden');
@@ -204,7 +218,7 @@ function applyRolePermissions() {
     document.getElementById('titleStatAnggota').innerText = 'Total Anggota';
     document.getElementById('titleStatSimpanan').innerText = 'Total Simpanan';
     document.getElementById('titleStatKas').innerText = 'Saldo Kas Koperasi';
-    document.getElementById('labelTabSimpanan').innerText = 'Simpanan';
+    document.getElementById('labelTabSimpanan').innerText = 'Simpanan Anggota';
   }
 }
 
@@ -216,7 +230,7 @@ function switchTab(tabId) {
   }
 
   document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active'));
 
   document.getElementById(tabId).classList.remove('hidden');
   const activeBtn = document.getElementById('nav-' + tabId);
@@ -268,14 +282,16 @@ function formatRupiah(num) {
 function updateSyncBadge(status, message) {
   const badge = document.getElementById('syncBadge');
   const text = document.getElementById('syncText');
-  text.innerText = message;
 
   if (status === 'online') {
-    badge.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 font-medium text-[11px]';
+    text.innerText = 'Sistem Online';
+    badge.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 font-semibold text-[11px]';
   } else if (status === 'connecting') {
-    badge.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/20 text-indigo-200 border border-indigo-400/30 font-medium text-[11px]';
+    text.innerText = 'Menghubungkan...';
+    badge.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-500/20 text-indigo-200 border border-indigo-400/30 font-semibold text-[11px]';
   } else {
-    badge.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-200 border border-amber-400/30 font-medium text-[11px]';
+    text.innerText = 'Sistem Offline';
+    badge.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/20 text-amber-200 border border-amber-400/30 font-semibold text-[11px]';
   }
 }
 
@@ -455,7 +471,6 @@ function saveAnggota(e) {
 
   db.anggota.push(newAnggota);
 
-  // Auto User Account
   db.pengguna.push({
     ID_User: 'USR-' + Date.now(),
     Username: noAngg,
@@ -570,7 +585,6 @@ function saveSimpanan(e) {
 
   db.simpanan.push(newSimpanan);
 
-  // Catat Kas Masuk
   db.kas.push({
     ID_Kas: 'KAS-' + Date.now(),
     Tanggal: newSimpanan.Tanggal,
@@ -1106,7 +1120,6 @@ function populateDropdowns() {
     pinjamanSelect.appendChild(opt2);
   });
 
-  // Populate Active Loans dropdown for Angsuran
   const angsuranSelect = document.getElementById('angsuranPinjaman');
   angsuranSelect.innerHTML = '<option value="">-- Pilih Kontrak Pinjaman --</option>';
 
@@ -1152,7 +1165,7 @@ function exportExcel(type) {
 }
 
 // ==========================================
-// GOOGLE SHEETS BACKEND API CONNECTOR
+// BACKEND API CONNECTOR
 // ==========================================
 function saveSettings() {
   if (currentUser.Role !== 'Pengurus') return;
@@ -1172,7 +1185,7 @@ function saveSettings() {
 
 function testConnection() {
   if (!db.scriptUrl) {
-    Swal.fire({ icon: 'warning', title: 'URL Belum Diisi', text: 'Silahkan masukkan Web App URL Google Apps Script Anda.' });
+    Swal.fire({ icon: 'warning', title: 'URL Belum Diisi', text: 'Silahkan masukkan Endpoint Web App API.' });
     return;
   }
 
@@ -1180,7 +1193,7 @@ function testConnection() {
     .then(res => res.json())
     .then(data => {
       if (data.status === 'success') {
-        updateSyncBadge('online', 'Terhubung ke Google Sheets DB');
+        updateSyncBadge('online', 'Sistem Online');
         Swal.fire({ icon: 'success', title: 'Koneksi Berhasil!', text: data.message });
       } else {
         updateSyncBadge('offline', 'Gagal Terhubung');
@@ -1195,17 +1208,17 @@ function testConnection() {
 
 function inisiateSheetDB() {
   if (!db.scriptUrl) {
-    Swal.fire({ icon: 'warning', title: 'URL Web App Belum Diisi', text: 'Masukkan Web App URL terlebih dahulu.' });
+    Swal.fire({ icon: 'warning', title: 'URL API Belum Diisi', text: 'Masukkan Endpoint Web App API terlebih dahulu.' });
     return;
   }
 
-  Swal.fire({ title: 'Menyiapkan Sheet Database...', didOpen: () => Swal.showLoading() });
+  Swal.fire({ title: 'Menyiapkan Database...', didOpen: () => Swal.showLoading() });
 
   fetch(db.scriptUrl + '?action=setupSheets')
     .then(res => res.json())
     .then(data => {
       if (data.status === 'success') {
-        Swal.fire({ icon: 'success', title: 'Setup Google Sheets Selesai!', text: data.message });
+        Swal.fire({ icon: 'success', title: 'Setup Database Selesai!', text: data.message });
         syncWithGoogleSheets();
       } else {
         Swal.fire({ icon: 'error', title: 'Gagal Setup', text: data.message });
@@ -1234,13 +1247,13 @@ function syncWithGoogleSheets() {
         if (d.katalog_ppob && d.katalog_ppob.length > 0) db.katalog_ppob = d.katalog_ppob;
 
         saveLocalDatabase();
-        updateSyncBadge('online', 'Terhubung ke Google Sheets DB');
+        updateSyncBadge('online', 'Sistem Online');
         refreshUI();
       }
     })
     .catch(err => {
       console.warn('Sync failed, using offline cache:', err);
-      updateSyncBadge('offline', 'Offline (Cache Lokal)');
+      updateSyncBadge('offline', 'Sistem Offline');
     });
 }
 
@@ -1253,7 +1266,7 @@ function postDataToAPI(action, payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: action, payload: payload })
   }).then(() => {
-    console.log('POST action sent to Apps Script API:', action);
+    console.log('POST action sent to API:', action);
   }).catch(err => {
     console.warn('POST API failed:', err);
   });
