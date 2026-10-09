@@ -131,15 +131,32 @@ function saveLocalDatabase() {
 // ==========================================
 function toggleSidebarNav() {
   const sidebar = document.getElementById('appSidebar');
+  const overlay = document.getElementById('sidebarOverlay');
   const iconChevron = document.getElementById('iconSidebarChevron');
   
-  sidebar.classList.toggle('sidebar-collapsed');
-
-  if (sidebar.classList.contains('sidebar-collapsed')) {
-    if (iconChevron) iconChevron.className = 'fa-solid fa-angles-right';
+  if (window.innerWidth < 768) {
+    // Mobile View: Toggle drawer off-canvas
+    sidebar.classList.toggle('mobile-hidden');
+    if (overlay) overlay.classList.toggle('hidden');
   } else {
-    if (iconChevron) iconChevron.className = 'fa-solid fa-angles-left';
+    // Desktop View: Toggle collapsed icon mode
+    sidebar.classList.toggle('sidebar-collapsed');
+    if (iconChevron) {
+      if (sidebar.classList.contains('sidebar-collapsed')) {
+        iconChevron.className = 'fa-solid fa-angles-right';
+      } else {
+        iconChevron.className = 'fa-solid fa-angles-left';
+      }
+    }
   }
+}
+
+// Close mobile sidebar when clicking outside on overlay
+function closeMobileSidebar() {
+  const sidebar = document.getElementById('appSidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  if (sidebar) sidebar.classList.add('mobile-hidden');
+  if (overlay) overlay.classList.add('hidden');
 }
 
 // ==========================================
@@ -237,6 +254,11 @@ function switchTab(tabId) {
   if (activeBtn) activeBtn.classList.add('active');
 
   if (tabId === 'tab-ppob') loadProdukPPOBOptions();
+
+  // Auto-close sidebar on mobile after selecting a menu tab
+  if (window.innerWidth < 768) {
+    closeMobileSidebar();
+  }
 }
 
 function switchSubPinjaman(subId) {

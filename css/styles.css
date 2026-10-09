@@ -30,26 +30,41 @@ body {
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-#appSidebar.sidebar-collapsed {
-  width: 5rem; /* 80px */
+/* Desktop Collapsed Mode */
+@media (min-width: 768px) {
+  #appSidebar.sidebar-collapsed {
+    width: 4.5rem; /* 72px */
+  }
+
+  #appSidebar.sidebar-collapsed .sidebar-text,
+  #appSidebar.sidebar-collapsed .sidebar-header-title,
+  #appSidebar.sidebar-collapsed .sidebar-badge {
+    display: none !important;
+  }
+
+  #appSidebar.sidebar-collapsed .sidebar-nav-item {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
-#appSidebar.sidebar-collapsed .sidebar-text {
-  display: none !important;
-}
+/* Mobile Off-Canvas Drawer Mode */
+@media (max-width: 767px) {
+  #appSidebar {
+    position: fixed;
+    top: 61px;
+    left: 0;
+    bottom: 0;
+    width: 16rem; /* 256px */
+    z-index: 50;
+    box-shadow: 10px 0 25px -5px rgba(0, 0, 0, 0.4);
+    transform: translateX(0);
+  }
 
-#appSidebar.sidebar-collapsed .sidebar-header-title {
-  display: none !important;
-}
-
-#appSidebar.sidebar-collapsed .sidebar-nav-item {
-  justify-content: center;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-#appSidebar.sidebar-collapsed .sidebar-badge {
-  display: none !important;
+  #appSidebar.mobile-hidden {
+    transform: translateX(-100%);
+  }
 }
 
 /* Navigation active tab style */
