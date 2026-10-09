@@ -5,9 +5,9 @@
 
 // =========================================================================
 // DEFAULT GOOGLE APPS SCRIPT WEB APP URL (DATABASE PIPELINE)
-// Masukkan Web App URL Anda di bawah ini agar aplikasi otomatis terhubung!
+// Auto-connected to Google Sheets DB
 // =========================================================================
-const DEFAULT_SCRIPT_URL = ''; // Tempelkan URL Google Apps Script Anda di sini
+const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKPlwaCC3Yu0HcXQnSmNkIMnQxrvpuO7Cw_lHqT5jg98mdNwVgBAWwUer4g7e4pXagiQ/exec';
 
 // Global State
 let currentUser = null;
@@ -108,7 +108,7 @@ function loadLocalDatabase() {
     db = { ...db, ...defaultData };
     saveLocalDatabase();
   }
-  if (!db.scriptUrl && DEFAULT_SCRIPT_URL) {
+  if (DEFAULT_SCRIPT_URL) {
     db.scriptUrl = DEFAULT_SCRIPT_URL;
   }
 }
