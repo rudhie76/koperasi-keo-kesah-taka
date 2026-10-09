@@ -3,11 +3,17 @@
  * Standalone Engine + Google Sheets API Integration + Multi-Role Auth System
  */
 
+// =========================================================================
+// DEFAULT GOOGLE APPS SCRIPT WEB APP URL (DATABASE PIPELINE)
+// Masukkan Web App URL Anda di bawah ini agar aplikasi otomatis terhubung!
+// =========================================================================
+const DEFAULT_SCRIPT_URL = ''; // Tempelkan URL Google Apps Script Anda di sini
+
 // Global State
 let currentUser = null;
 
 let db = {
-  scriptUrl: localStorage.getItem('kkt_script_url') || '',
+  scriptUrl: localStorage.getItem('kkt_script_url') || DEFAULT_SCRIPT_URL,
   pengguna: [],
   anggota: [],
   simpanan: [],
@@ -101,6 +107,9 @@ function loadLocalDatabase() {
   } else {
     db = { ...db, ...defaultData };
     saveLocalDatabase();
+  }
+  if (!db.scriptUrl && DEFAULT_SCRIPT_URL) {
+    db.scriptUrl = DEFAULT_SCRIPT_URL;
   }
 }
 
