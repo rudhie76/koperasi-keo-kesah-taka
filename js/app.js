@@ -307,7 +307,7 @@ function refreshData() {
 }
 
 function formatRupiah(num) {
-  return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
+  return 'Rp\u00A0' + Number(num || 0).toLocaleString('id-ID');
 }
 
 function updateSyncBadge(status, message) {
